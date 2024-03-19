@@ -1,0 +1,60 @@
+
+package exe;
+import java.util.Scanner;
+
+public class DilKontrol {
+
+    public static void main(String[] args) {
+   
+        String[] ozneListesi = {"Ben", "Sen", "Hasan", "Nurşah", "Elif", "Abdulrezzak", "Şehribanu", "Zeynelabidin", "Naki"};
+        String[] nesneListesi = {"Bahçe", "Okul", "Park", "Sınıf", "Yarın", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma",
+                "Cumartesi", "Pazar", "Merkez", "Ev", "Kitap", "Defter", "Güneş", "Beydağı"};
+        String[] yuklemListesi = {"Gitmek", "Gelmek", "Okumak", "Yazmak", "Yürümek", "Görmek"};
+
+        // Kullanıcıdan cümleyi giriyoruz
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Cümleyi girin: ");
+        String cumle = scanner.nextLine();
+        scanner.close();
+
+        // boşluklarla ilgili sıkıntıyı gideriyoruz ve ne kadar boşluk varsa tek boşluk yapıp kabul ediyor
+        cumle = cumle.replaceAll("\\s+", " ");
+
+        // Girdiyi parçalara ayır
+        String[] kelimeler = cumle.split(" ");
+
+        // girilen kelime dizidekilere uygunmu değilmi diye kontrol ediyoruz
+        boolean ozneVar = false;
+        boolean nesneVar = false;
+        boolean yuklemVar = false;
+//kelime doğru mu değilmi kıyaslıyor
+        for (String kelime : kelimeler) {
+            for (String ozne : ozneListesi) {
+                if (kelime.equals(ozne)) {
+                    ozneVar = true;
+                    break;
+                }
+            }
+
+            for (String nesne : nesneListesi) {
+                if (kelime.equals(nesne)) {
+                    nesneVar = true;
+                    break;
+                }
+            }
+
+            for (String yuklem : yuklemListesi) {
+                if (kelime.equals(yuklem)) {
+                    yuklemVar = true;
+                    break;
+                }
+            }
+        }
+// doğruysa evet değilse hayır diyor
+        if (ozneVar && nesneVar && yuklemVar && kelimeler.length == 3) {
+            System.out.println("evet");
+        } else {
+            System.out.println("hayır");
+        }
+    }
+}
