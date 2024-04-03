@@ -1,0 +1,84 @@
+package dilKontrol;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+
+    class kontrol {
+    int veri;
+    int adres;
+
+    public kontrol(int veri, int adres) {
+        this.veri = veri;
+        this.adres = adres;
+    }
+}
+
+
+public class Progödev3 {
+
+   
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("dosya adi: ");
+        String dosyaAdi = scan.nextLine();
+        int satir = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader(dosyaAdi))) {
+            while (reader.readLine() != null)
+                satir++;
+        }
+
+        int[] dizi = new int[satir];
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(dosyaAdi))) {
+            int indeks = 0;
+            String dosyaSatir;
+            while ((dosyaSatir = reader.readLine()) != null)
+                dizi[indeks++] = Integer.parseInt(dosyaSatir);
+        }
+        
+        int n = dizi.length;
+        kontrol[] liste1 = new kontrol[n];
+        kontrol[] liste2 = new kontrol[n];
+
+        for (int i = 0; i < n; i++){
+            liste1[i] = new kontrol(dizi[i], i);
+            liste2[i] = new kontrol(dizi[i], i);
+        }
+
+        kontrol[] gecici = new kontrol[n];
+
+        for (int i = 0; i < n; i++) 
+            gecici[i] = liste1[i];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n - 1 - i; j++) {
+                if (gecici[j].veri > gecici[j + 1].veri) {
+                    kontrol t = gecici[j];
+                    gecici[j] = gecici[j + 1];
+                    gecici[j + 1] = t;
+                }
+            }
+        }
+
+        int adres = gecici[0].adres;
+        
+        for (int i = 0; i < n - 1; i++) 
+            gecici[i].adres = gecici[i + 1].adres;
+
+        gecici[n - 1].adres = adres;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (gecici[j].veri == liste1[i].veri) 
+                    liste1[i].adres = gecici[j].adres;
+            }
+        }
+        
+     
+        for(int i = 0; i < n; i++){
+            System.out.println(liste2[i].veri + "      " + liste2[i].adres + "        " + liste1[i].veri + "   " +  liste1[i].adres);
+        }
+    }
+}
